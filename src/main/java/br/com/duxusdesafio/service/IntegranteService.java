@@ -5,6 +5,8 @@ import br.com.duxusdesafio.model.Integrante;
 import br.com.duxusdesafio.repository.IntegranteRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class IntegranteService {
 
@@ -21,4 +23,5 @@ public class IntegranteService {
         integrante.setFuncao(dto.getFuncao());
         return repository.save(integrante);
     }
+
 }

@@ -1,24 +1,70 @@
 package br.com.duxusdesafio.service;
 
+import br.com.duxusdesafio.dto.response.IntegranteResponseDTO;
+import br.com.duxusdesafio.dto.response.OpTimeDaDataResponseDTO;
+import br.com.duxusdesafio.dto.response.TimeResponseDTO;
+import br.com.duxusdesafio.model.ComposicaoTime;
 import br.com.duxusdesafio.model.Integrante;
 import br.com.duxusdesafio.model.Time;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Service que possuirá as regras de negócio para o processamento dos dados solicitados no desafio!
  */
+@Service
 public class ApiService {
+
+
+    @Autowired
+    TimeService timeService;
+
+    @Autowired
+    ComposicaoTimeService composicaoTimeService;
+
 
     /**
      * Vai retornar um Time, com a composição do time daquela data
      */
-    public Time timeDaData(LocalDate data, List<Time> todosOsTimes){
-        // TODO Implementar método seguindo as instruções!
-        return null;
+
+
+//    public Time timeDaData(LocalDate data, List<Time> todosOsTimes){
+//        return null;
+//    }
+    // Modificado método
+    public OpTimeDaDataResponseDTO timeDaData(LocalDate data){
+
+        Time time = timeService.buscarPorData(data);
+        List<ComposicaoTime> composicaoTimes = composicaoTimeService.listaPorTime(time);
+        List<Integrante> integrantes = composicaoTimes.stream()
+                .map(ComposicaoTime::getIntegrante)
+                .collect(Collectors.toList());
+
+        TimeResponseDTO timeDTO = TimeResponseDTO.builder()
+                .id(time.getId())
+                .data(time.getData())
+                .build();
+        List<IntegranteResponseDTO> integranteDTOList = new ArrayList<>();
+
+        for(Integrante integrante: integrantes){
+           integranteDTOList.add(IntegranteResponseDTO.builder()
+                   .id(integrante.getId())
+                   .nome(integrante.getNome())
+                   .franquia(integrante.getFranquia())
+                   .funcao(integrante.getFuncao())
+                   .build());
+        }
+
+        return OpTimeDaDataResponseDTO.builder()
+                .time(timeDTO)
+                .integrantes(integranteDTOList)
+                .build();
     }
 
     /**
