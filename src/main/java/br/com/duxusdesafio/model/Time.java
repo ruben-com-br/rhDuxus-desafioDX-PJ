@@ -1,6 +1,8 @@
 package br.com.duxusdesafio.model;
 
 import lombok.*;
+import lombok.experimental.FieldNameConstants;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -8,6 +10,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldNameConstants
 @Builder
 public class Time {
 

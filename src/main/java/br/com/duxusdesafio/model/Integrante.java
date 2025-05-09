@@ -1,6 +1,8 @@
 package br.com.duxusdesafio.model;
 
 import lombok.*;
+import lombok.experimental.FieldNameConstants;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,6 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@FieldNameConstants
 public class Integrante {
 
     @Id

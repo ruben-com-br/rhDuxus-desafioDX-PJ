@@ -6,6 +6,7 @@ import br.com.duxusdesafio.dto.response.TimeResponseDTO;
 import br.com.duxusdesafio.model.ComposicaoTime;
 import br.com.duxusdesafio.model.Integrante;
 import br.com.duxusdesafio.model.Time;
+import br.com.duxusdesafio.repository.OperacoesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,8 @@ public class ApiService {
     @Autowired
     ComposicaoTimeService composicaoTimeService;
 
+    @Autowired
+    OperacoesRepository operacoesRepository;
 
     /**
      * Vai retornar um Time, com a composição do time daquela data
@@ -71,9 +74,8 @@ public class ApiService {
      * Vai retornar o integrante que estiver presente na maior quantidade de times
      * dentro do período
      */
-    public Integrante integranteMaisUsado(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
-        // TODO Implementar método seguindo as instruções!
-        return null;
+    public List<IntegranteResponseDTO> integranteMaisUsado(LocalDate dataInicial, LocalDate dataFinal){
+        return operacoesRepository.buscarIntegrantesMaisUsados(dataInicial,dataFinal);
     }
 
     /**
